@@ -7,7 +7,7 @@
   (autocmd [:FocusGained :TermClose :TermLeave]
            {:group :checktime
             :callback #(when (not= vim.o.buftype :nofile)
-                         (vim.cmd :checktime))})
+                         (vim.cmd "checktime | redraw"))})
   ;; Highlight on yank
   (autocmd :TextYankPost
            {:group :highlight_yank

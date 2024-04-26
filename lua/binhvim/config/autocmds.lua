@@ -2,7 +2,7 @@
 local function setup()
   local function _1_()
     if (vim.o.buftype ~= "nofile") then
-      return vim.cmd("checktime")
+      return vim.cmd("checktime | redraw")
     else
       return nil
     end
