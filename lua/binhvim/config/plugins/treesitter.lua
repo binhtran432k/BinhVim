@@ -1,8 +1,10 @@
 -- [nfnl] Compiled from fnl/binhvim/config/plugins/treesitter.fnl by https://github.com/Olical/nfnl, do not edit.
 local function _1_(plugin)
+  do end (require("lazy.core.loader")).add_to_rtp(plugin)
+  return require("nvim-treesitter.query_predicates")
 end
 local function _2_()
-  return {highlight = {enable = true}, indent = {enable = true}, ensure_installed = {}, binh_ensure_installed = {bash = true, c = true, diff = true, fennel = true, html = true, javascript = true, jsdoc = true, json = true, jsonc = true, lua = true, luadoc = true, luap = true, markdown = true, markdown_inline = true, python = true, query = true, regex = true, toml = true, tsx = true, typescript = true, vim = true, vimdoc = true, xml = true, yaml = true}, incremental_selection = {enable = true, keymaps = {init_selection = "<c-space>", node_incremental = "<c-space>", node_decremental = "<bs>", scope_incremental = false}}, textobjects = {move = {enable = true, goto_next_start = {[{"]f"}] = "@function.outer", [{"]c"}] = "@class.outer"}, goto_next_end = {[{"]F"}] = "@function.outer", [{"]C"}] = "@class.outer"}, goto_previous_start = {[{"[f"}] = "@function.outer", [{"[c"}] = "@class.outer"}, goto_previous_end = {[{"[F"}] = "@function.outer", [{"[C"}] = "@class.outer"}}}}
+  return {highlight = {enable = true}, indent = {enable = true}, ensure_installed = {}, binh_ensure_installed = {bash = true, c = true, diff = true, fennel = true, html = true, javascript = true, jsdoc = true, json = true, jsonc = true, lua = true, luadoc = true, luap = true, markdown = true, markdown_inline = true, python = true, query = true, regex = true, toml = true, tsx = true, typescript = true, vim = true, vimdoc = true, xml = true, yaml = true}, incremental_selection = {enable = true, keymaps = {init_selection = "<c-space>", node_incremental = "<c-space>", node_decremental = "<bs>", scope_incremental = false}}, textobjects = {move = {enable = true, goto_next_start = {["]f"] = "@function.outer", ["]c"] = "@class.outer"}, goto_next_end = {["]F"] = "@function.outer", ["]C"] = "@class.outer"}, goto_previous_start = {["[f"] = "@function.outer", ["[c"] = "@class.outer"}, goto_previous_end = {["[F"] = "@function.outer", ["[C"] = "@class.outer"}}}}
 end
 local function _3_(_, opts)
   local _let_4_ = require("nvim-treesitter.configs")
@@ -28,7 +30,6 @@ local function _3_(_, opts)
   end
   opts["ensure_installed"] = _5_
   opts["binh_ensure_installed"] = nil
-  opts["textobjects"] = nil
   return setup(opts)
 end
 return {init = _1_, opts = _2_, config = _3_}
