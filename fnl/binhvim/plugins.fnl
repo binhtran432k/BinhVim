@@ -178,6 +178,12 @@
         :cmd :WhichKey
         :opts (load-config :whichkey :opts)
         :config (load-config :whichkey :config)}
+       ;; git signs highlights text that has changed since the list
+       ;; git commit, and also lets you interactively stage & unstage
+       ;; hunks in a commit.
+       {1 :lewis6991/gitsigns.nvim
+        :event :LazyFile
+        :opts (load-config :gitsigns :opts)}
        ;;; Colorscheme
        {1 :binhtran432k/dracula.nvim :lazy true}
        ;;; UI
