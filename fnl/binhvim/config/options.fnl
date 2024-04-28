@@ -1,9 +1,5 @@
 ;; This file is automatically loaded by plugins
 
-(macro disable_builtins [builtins]
-  (icollect [_ builtin (ipairs builtins)]
-    `(tset vim.g ,(.. :loaded_ builtin) 1)))
-
 (macro disable_providers [providers]
   (icollect [_ provider (ipairs providers)]
     `(tset vim.g ,(.. :loaded_ provider :_provider) 0)))
@@ -11,7 +7,6 @@
 (fn setup []
   (set vim.g.mapleader " ")
   (set vim.g.maplocalleader "\\")
-  (set vim.g.clipboard true)
   (set vim.opt.autowrite true) ; Enable auto write
   (when (not vim.env.SSH_TTY)
     (set vim.opt.clipboard :unnamedplus)) ; Sync with system clipboard
@@ -72,38 +67,7 @@
                           :eob " "})
   (when (= (vim.fn.has :nvim-0.10) 1)
     (set vim.opt.smoothscroll true))
-  (disable_builtins [:2html_plugin
-                     :getscript
-                     :getscriptPlugin
-                     :gzip
-                     :logipat
-                     :netrw
-                     :netrwPlugin
-                     :netrwSettings
-                     :netrwFileHandlers
-                     :tar
-                     :tarPlugin
-                     :rrhelper
-                     :spellfile_plugin
-                     :vimball
-                     :vimballPlugin
-                     :zip
-                     :zipPlugin
-                     :logipat
-                     :matchit
-                     :tutor
-                     :rplugin
-                     :syntax
-                     :synmenu
-                     :optwin
-                     :compiler
-                     :bugreport
-                     :ftplugin
-                     :archlinux
-                     :fzf
-                     :tutor_mode_plugin
-                     :sleuth
-                     :vimgrep])
+  
   (disable_providers [:node :perl :python3 :ruby]))
 
 {: setup}

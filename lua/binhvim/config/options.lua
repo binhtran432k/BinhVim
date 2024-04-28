@@ -2,7 +2,6 @@
 local function setup()
   vim.g.mapleader = " "
   vim.g.maplocalleader = "\\"
-  vim.g.clipboard = true
   vim.opt.autowrite = true
   if not vim.env.SSH_TTY then
     vim.opt.clipboard = "unnamedplus"
@@ -57,39 +56,6 @@ local function setup()
     vim.opt.smoothscroll = true
   else
   end
-  vim.g["loaded_2html_plugin"] = 1
-  vim.g["loaded_getscript"] = 1
-  vim.g["loaded_getscriptPlugin"] = 1
-  vim.g["loaded_gzip"] = 1
-  vim.g["loaded_logipat"] = 1
-  vim.g["loaded_netrw"] = 1
-  vim.g["loaded_netrwPlugin"] = 1
-  vim.g["loaded_netrwSettings"] = 1
-  vim.g["loaded_netrwFileHandlers"] = 1
-  vim.g["loaded_tar"] = 1
-  vim.g["loaded_tarPlugin"] = 1
-  vim.g["loaded_rrhelper"] = 1
-  vim.g["loaded_spellfile_plugin"] = 1
-  vim.g["loaded_vimball"] = 1
-  vim.g["loaded_vimballPlugin"] = 1
-  vim.g["loaded_zip"] = 1
-  vim.g["loaded_zipPlugin"] = 1
-  vim.g["loaded_logipat"] = 1
-  vim.g["loaded_matchit"] = 1
-  vim.g["loaded_tutor"] = 1
-  vim.g["loaded_rplugin"] = 1
-  vim.g["loaded_syntax"] = 1
-  vim.g["loaded_synmenu"] = 1
-  vim.g["loaded_optwin"] = 1
-  vim.g["loaded_compiler"] = 1
-  vim.g["loaded_bugreport"] = 1
-  vim.g["loaded_ftplugin"] = 1
-  vim.g["loaded_archlinux"] = 1
-  vim.g["loaded_fzf"] = 1
-  vim.g["loaded_tutor_mode_plugin"] = 1
-  vim.g["loaded_sleuth"] = 1
-  vim.g["loaded_vimgrep"] = 1
-  do local _ = {nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil} end
   vim.g["loaded_node_provider"] = 0
   vim.g["loaded_perl_provider"] = 0
   vim.g["loaded_python3_provider"] = 0
