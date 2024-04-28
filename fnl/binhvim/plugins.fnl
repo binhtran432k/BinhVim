@@ -163,6 +163,14 @@
         :keys (load-config :telescope :keys)
         :opts (load-config :telescope :opts)
         :config (load-config :telescope :config)}
+       ;; Flash enhances the built-in search functionality by showing labels
+       ;; at the end of each match, letting you quickly jump to a specific
+       ;; location.
+       {1 :folke/flash.nvim
+        :event :VeryLazy
+        :vscode true
+        :opts {}
+        :keys (load-config :flash :keys)}
        ;; which-key helps you remember key bindings by showing a popup
        ;; with the active keybindings of the command you started typing.
        {1 :folke/which-key.nvim
