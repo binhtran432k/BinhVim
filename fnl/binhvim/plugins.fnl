@@ -28,7 +28,7 @@
         :cond true
         :version "*"}
        ;; fennel compiler
-       {1 :Olical/nfnl :ft :fennel :event :VeryLazy}
+       {1 :Olical/nfnl :ft :fennel :event :LazyFile}
        ;;; Util
        ;; measure startuptime
        {1 :dstein64/vim-startuptime
