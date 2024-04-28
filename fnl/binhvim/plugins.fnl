@@ -45,7 +45,7 @@
         :dependencies [{1 :nvim-treesitter/nvim-treesitter-textobjects
                         :config (load-config :treesitter :textobjects_config)}
                        {1 :HiPhish/rainbow-delimiters.nvim}]
-        :event :VeryLazy
+        :event [:LazyFile :VeryLazy]
         :cmd [:TSInstall
               :TSBufEnable
               :TSBufDisable
@@ -60,7 +60,7 @@
         :config (load-config :treesitter :config)}
        ;; automatically add closing tags for HTML and JSX
        {1 :windwp/nvim-ts-autotag
-        :event :VeryLazy
+        :event :LazyFile
         :ft [:html
              :javascript
              :jsx
