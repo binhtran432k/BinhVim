@@ -2,6 +2,7 @@
 local function setup()
   vim.g.mapleader = " "
   vim.g.maplocalleader = "\\"
+  vim.g.clipboard = true
   vim.opt.autowrite = true
   if not vim.env.SSH_TTY then
     vim.opt.clipboard = "unnamedplus"

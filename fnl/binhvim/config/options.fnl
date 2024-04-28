@@ -11,6 +11,7 @@
 (fn setup []
   (set vim.g.mapleader " ")
   (set vim.g.maplocalleader "\\")
+  (set vim.g.clipboard true)
   (set vim.opt.autowrite true) ; Enable auto write
   (when (not vim.env.SSH_TTY)
     (set vim.opt.clipboard :unnamedplus)) ; Sync with system clipboard
