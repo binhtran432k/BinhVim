@@ -98,6 +98,12 @@
         :opts (fn []
                 {:pre_hook ((. (require :ts_context_commentstring.integrations.comment_nvim)
                                :create_pre_hook))})}
+       {1 :windwp/nvim-autopairs
+        :event :InsertEnter
+        :dependencies {1 :nvim-treesitter/nvim-treesitter
+                       :opts {:autopairs {:enable true}}}
+        :opts (load-config :autopairs :opts)
+        :config (load-config :autopairs :config)}
        ;;; Editor
        ;; file explorer
        {1 :nvim-tree/nvim-tree.lua
