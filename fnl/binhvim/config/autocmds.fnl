@@ -37,32 +37,36 @@
                                          (<= (. mark 1) lcount))
                                 (pcall vim.api.nvim_win_set_cursor 0 mark))))))})
   ;; Close some filetypes with <q>
-  (autocmd :BufWinEnter
+  (autocmd [:FileType]
            {:group :close_with_q
-            :callback (fn [event]
+            :callback (fn [{: buf}]
                         (let [buftype (vim.api.nvim_get_option_value :buftype
-                                                                     {:buf event.buf})]
-                          (when (and (vim.tbl_contains [:nofile
-                                                        :quickfix
-                                                        :PlenaryTestPopup
-                                                        :help
-                                                        :lspinfo
-                                                        :notify
-                                                        :qf
-                                                        :query
-                                                        :spectre_panel
-                                                        :startuptime
-                                                        :tsplayground
-                                                        :neotest-output
-                                                        :checkhealth
-                                                        :neotest-summary
-                                                        :neotest-output-panel]
-                                                       buftype)
-                                     (= (vim.fn.maparg :q :n) ""))
-                            (tset (. vim.bo event.buf) :buflisted false)
+                                                                     {: buf})
+                              filetype (. (. vim.bo buf) :filetype)
+                              buftype-ignored? (and (vim.tbl_contains [:nofile
+                                                                       :quickfix
+                                                                       :help]
+                                                                      buftype)
+                                                    (= (vim.fn.maparg :q :n) ""))
+                              filetype-ignored? (vim.tbl_contains [:help
+                                                                   :PlenaryTestPopup
+                                                                   :lspinfo
+                                                                   :notify
+                                                                   :qf
+                                                                   :query
+                                                                   :spectre_panel
+                                                                   :startuptime
+                                                                   :tsplayground
+                                                                   :neotest-output
+                                                                   :checkhealth
+                                                                   :neotest-summary
+                                                                   :neotest-output-panel]
+                                                                  filetype)]
+                          (when (or buftype-ignored? filetype-ignored?)
+                            (tset (. vim.bo buf) :buflisted false)
                             (vim.keymap.set :n :q :<cmd>close<cr>
                                             {:desc "Close window"
-                                             :buffer event.buf
+                                             :buffer buf
                                              :silent true
                                              :nowait true}))))})
   ;; Make it easier to close man-files when opened inline
@@ -120,6 +124,7 @@
                       :mason
                       :notify
                       :qf
+                      :NvimTree
                       :query
                       :spectre_panel
                       :startuptime

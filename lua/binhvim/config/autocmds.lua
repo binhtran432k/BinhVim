@@ -37,54 +37,59 @@ local function setup()
     end
   end
   vim.api.nvim_create_autocmd("BufReadPost", {callback = _5_, group = vim.api.nvim_create_augroup("binhvim_last_loc", {clear = true})})
-  local function _8_(event)
-    local buftype = vim.api.nvim_get_option_value("buftype", {buf = event.buf})
-    if (vim.tbl_contains({"nofile", "quickfix", "PlenaryTestPopup", "help", "lspinfo", "notify", "qf", "query", "spectre_panel", "startuptime", "tsplayground", "neotest-output", "checkhealth", "neotest-summary", "neotest-output-panel"}, buftype) and (vim.fn.maparg("q", "n") == "")) then
-      vim.bo[event.buf]["buflisted"] = false
-      return vim.keymap.set("n", "q", "<cmd>close<cr>", {desc = "Close window", buffer = event.buf, silent = true, nowait = true})
+  local function _10_(_8_)
+    local _arg_9_ = _8_
+    local buf = _arg_9_["buf"]
+    local buftype = vim.api.nvim_get_option_value("buftype", {buf = buf})
+    local filetype = vim.bo[buf].filetype
+    local buftype_ignored_3f = (vim.tbl_contains({"nofile", "quickfix", "help"}, buftype) and (vim.fn.maparg("q", "n") == ""))
+    local filetype_ignored_3f = vim.tbl_contains({"help", "PlenaryTestPopup", "lspinfo", "notify", "qf", "query", "spectre_panel", "startuptime", "tsplayground", "neotest-output", "checkhealth", "neotest-summary", "neotest-output-panel"}, filetype)
+    if (buftype_ignored_3f or filetype_ignored_3f) then
+      vim.bo[buf]["buflisted"] = false
+      return vim.keymap.set("n", "q", "<cmd>close<cr>", {desc = "Close window", buffer = buf, silent = true, nowait = true})
     else
       return nil
     end
   end
-  vim.api.nvim_create_autocmd("BufWinEnter", {callback = _8_, group = vim.api.nvim_create_augroup("binhvim_close_with_q", {clear = true})})
-  local function _10_(event)
+  vim.api.nvim_create_autocmd({"FileType"}, {callback = _10_, group = vim.api.nvim_create_augroup("binhvim_close_with_q", {clear = true})})
+  local function _12_(event)
     vim.bo[event.buf]["buflisted"] = false
     return nil
   end
-  vim.api.nvim_create_autocmd("FileType", {callback = _10_, group = vim.api.nvim_create_augroup("binhvim_man_unlisted", {clear = true}), pattern = {"man"}})
-  local function _11_()
+  vim.api.nvim_create_autocmd("FileType", {callback = _12_, group = vim.api.nvim_create_augroup("binhvim_man_unlisted", {clear = true}), pattern = {"man"}})
+  local function _13_()
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
     return nil
   end
-  vim.api.nvim_create_autocmd("FileType", {callback = _11_, group = vim.api.nvim_create_augroup("binhvim_wrap_spell", {clear = true}), pattern = {"gitcommit", "markdown"}})
-  local function _12_()
+  vim.api.nvim_create_autocmd("FileType", {callback = _13_, group = vim.api.nvim_create_augroup("binhvim_wrap_spell", {clear = true}), pattern = {"gitcommit", "markdown"}})
+  local function _14_()
     vim.opt_local.conceallevel = 0
     return nil
   end
-  vim.api.nvim_create_autocmd("FileType", {callback = _12_, group = vim.api.nvim_create_augroup("binhvim_json_conceal", {clear = true}), pattern = {"json", "jsonc", "json5"}})
-  local function _13_(event)
+  vim.api.nvim_create_autocmd("FileType", {callback = _14_, group = vim.api.nvim_create_augroup("binhvim_json_conceal", {clear = true}), pattern = {"json", "jsonc", "json5"}})
+  local function _15_(event)
     if not (event.match):match("^%w%w+://") then
       return vim.fn.mkdir(vim.fn.fnamemodify((vim.loop.fs_realpath(event.match) or event.match()), ":p:h"), "p")
     else
       return nil
     end
   end
-  vim.api.nvim_create_autocmd("BufWritePre", {callback = _13_, group = vim.api.nvim_create_augroup("binhvim_auto_create_dir", {clear = true})})
-  local function _15_()
+  vim.api.nvim_create_autocmd("BufWritePre", {callback = _15_, group = vim.api.nvim_create_augroup("binhvim_auto_create_dir", {clear = true})})
+  local function _17_()
     vim.opt_local.number = false
     vim.opt_local.cursorline = false
     vim.opt_local.foldcolumn = "0"
     vim.opt_local.signcolumn = "no"
     return vim.cmd("startinsert")
   end
-  vim.api.nvim_create_autocmd("TermOpen", {callback = _15_, group = vim.api.nvim_create_augroup("binhvim_simplify_terminal", {clear = true}), pattern = "*"})
-  local function _16_()
+  vim.api.nvim_create_autocmd("TermOpen", {callback = _17_, group = vim.api.nvim_create_augroup("binhvim_simplify_terminal", {clear = true}), pattern = "*"})
+  local function _18_()
     vim.opt_local.number = false
     vim.opt_local.cursorline = false
     vim.b.miniindentscope_disable = true
     return nil
   end
-  return vim.api.nvim_create_autocmd("FileType", {callback = _16_, group = vim.api.nvim_create_augroup("binhvim_simplify_ui", {clear = true}), pattern = {"neo-tree", "PlenaryTestPopup", "checkhealth", "fugitive", "git", "gitcommit", "help", "lazy", "lazyterm", "lspinfo", "man", "mason", "notify", "qf", "query", "spectre_panel", "startuptime", "tsplayground", "Trouble", "trouble", "toggleterm"}})
+  return vim.api.nvim_create_autocmd("FileType", {callback = _18_, group = vim.api.nvim_create_augroup("binhvim_simplify_ui", {clear = true}), pattern = {"neo-tree", "PlenaryTestPopup", "checkhealth", "fugitive", "git", "gitcommit", "help", "lazy", "lazyterm", "lspinfo", "man", "mason", "notify", "qf", "NvimTree", "query", "spectre_panel", "startuptime", "tsplayground", "Trouble", "trouble", "toggleterm"}})
 end
 return {setup = setup}
