@@ -7,24 +7,24 @@
                             word-before (current-line:sub col col)]
                         (= (word-before:match "%s") nil)))))
 
-(fn supertab-next []
+(fn supertab-next [fallback]
   (local cmp (require :cmp))
-  (local luasnip (require :luasnip))
   (if (cmp.visible) (cmp.select_next_item)
-      (luasnip.expand_or_jumpable) (luasnip.expand_or_jump)
+      (vim.snippet.jumpable 1) (vim.schedule #(vim.snippet.jump 1))
       (has_words_before) (cmp.complete)
       (fallback)))
 
-(fn supertab-prev []
+(fn supertab-prev [fallback]
   (local cmp (require :cmp))
-  (local luasnip (require :luasnip))
   (if (cmp.visible) (cmp.select_prev_item)
-      (luasnip.jumpable -1) (luasnip.jump -1)
+      (vim.snippet.jumpable -1) (vim.schedule #(vim.snippet.jump -1))
       (fallback)))
 
 (fn opts []
+  (vim.api.nvim_set_hl 0 :CmpGhostText {:link :Comment :default true})
   (let [cmp (require :cmp)
-        defaults ((require :cmp.config.default))]
+        defaults ((require :cmp.config.default))
+        lspkind (require :lspkind)]
     {;; configure any filetype to auto add brackets
      :auto_brackets []
      :completion {:completeopt "menu,menuone,noinsert"}
@@ -43,9 +43,9 @@
                    ;; Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                    :select_replace (cmp.mapping.confirm {:behavior cmp.ConfirmBehavior.Replace
                                                          :select true})
-                   :cr #(do
-                          (cmp.abort)
-                          ($1))}
+                   :cr (fn [fallback]
+                         (cmp.abort)
+                         (fallback))}
      :binh_key {:<c-j> :next
                 :<c-k> :prev
                 :<c-u> :scroll_next
@@ -57,8 +57,11 @@
                 :<s-cr> :select_replace
                 :<c-cr> :cr}
      :binh_key_cmdline {:<c-j> :next :<c-k> :prev :<c-space> :toggle}
-     :sources (cmp.config.sources [{:name :nvim_lsp} {:name :path}]
+     :sources (cmp.config.sources [{:name :nvim_lsp}
+                                   {:name :snippets}
+                                   {:name :path}]
                                   [{:name :buffer}])
+     :formatting {:format (lspkind.cmp_format {})}
      :experimental {:ghost_text {:hl_group :CmpGhostText}}
      :sorting defaults.sorting}))
 

@@ -29,10 +29,18 @@
   (if biome?
       (contain [:jsonls :tsserver] name) true))
 
-{:keys #[{1 :<leader>cf 2 #(format {}) :mode [:n :v] :desc :Format}
-         {1 :<leader>cF
-          2 #(format {:formatters [:injected]})
-          :mode [:n :v]
-          :desc "Format Injected Langs"}]
- :opts #{:formatters_by_ft {:fennel [:fnlfmt]}}}
+(fn keys []
+  [{1 :<leader>cf 2 #(format {}) :mode [:n :v] :desc :Format}
+   {1 :<leader>cF
+    2 #(format {:formatters [:injected]})
+    :mode [:n :v]
+    :desc "Format Injected Langs"}])
+
+(fn opts []
+  {:formatters_by_ft {:fennel [:fnlfmt]
+                      :lua [:stylua]
+                      :fish [:fish_indent]
+                      :sh [:shfmt]}})
+
+{: keys : opts}
 

@@ -10,16 +10,16 @@ local function filter_client(_1_)
     return true
   end
 end
-local function _4_()
+local function keys()
+  local function _4_()
+    return (require("conform")).format({lsp_fallback = true, async = false, timeout_ms = 3000, quiet = false, filter = filter_client})
+  end
   local function _5_()
-    return (require("conform")).format({timeout_ms = 3000, async = false, lsp_fallback = true, filter = filter_client, quiet = false})
+    return (require("conform")).format({formatters = {"injected"}, lsp_fallback = true, async = false, timeout_ms = 3000, quiet = false, filter = filter_client})
   end
-  local function _6_()
-    return (require("conform")).format({formatters = {"injected"}, timeout_ms = 3000, async = false, lsp_fallback = true, filter = filter_client, quiet = false})
-  end
-  return {{"<leader>cf", _5_, mode = {"n", "v"}, desc = "Format"}, {"<leader>cF", _6_, mode = {"n", "v"}, desc = "Format Injected Langs"}}
+  return {{"<leader>cf", _4_, mode = {"n", "v"}, desc = "Format"}, {"<leader>cF", _5_, mode = {"n", "v"}, desc = "Format Injected Langs"}}
 end
-local function _7_()
-  return {formatters_by_ft = {fennel = {"fnlfmt"}}}
+local function opts()
+  return {formatters_by_ft = {fennel = {"fnlfmt"}, lua = {"stylua"}, fish = {"fish_indent"}, sh = {"shfmt"}}}
 end
-return {keys = _4_, opts = _7_}
+return {keys = keys, opts = opts}

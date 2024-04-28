@@ -11,52 +11,58 @@ local function has_words_before()
   end
   return ((col ~= 0) and _3_())
 end
-local function supertab_next()
+local function supertab_next(fallback)
   local cmp = require("cmp")
-  local luasnip = require("luasnip")
   if cmp.visible() then
     return cmp.select_next_item()
-  elseif luasnip.expand_or_jumpable() then
-    return luasnip.expand_or_jump()
+  elseif vim.snippet.jumpable(1) then
+    local function _4_()
+      return vim.snippet.jump(1)
+    end
+    return vim.schedule(_4_)
   elseif has_words_before() then
     return cmp.complete()
   else
     return fallback()
   end
 end
-local function supertab_prev()
+local function supertab_prev(fallback)
   local cmp = require("cmp")
-  local luasnip = require("luasnip")
   if cmp.visible() then
     return cmp.select_prev_item()
-  elseif luasnip.jumpable(-1) then
-    return luasnip.jump(-1)
+  elseif vim.snippet.jumpable(-1) then
+    local function _6_()
+      return vim.snippet.jump(-1)
+    end
+    return vim.schedule(_6_)
   else
     return fallback()
   end
 end
 local function opts()
+  vim.api.nvim_set_hl(0, "CmpGhostText", {link = "Comment", default = true})
   local cmp = require("cmp")
   local defaults = require("cmp.config.default")()
-  local function _6_()
+  local lspkind = require("lspkind")
+  local function _8_()
     if cmp.visible() then
       return cmp.close()
     else
       return cmp.complete()
     end
   end
-  local function _8_(_241)
+  local function _10_(fallback)
     cmp.abort()
-    return _241()
+    return fallback()
   end
-  return {auto_brackets = {}, completion = {completeopt = "menu,menuone,noinsert"}, binh_action = {next = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Insert}), prev = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}), supertab_next = supertab_next, supertab_prev = supertab_prev, scroll_prev = cmp.mapping.scroll_docs(4), scroll_next = cmp.mapping.scroll_docs(-4), complete = cmp.mapping.complete(), toggle = _6_, abort = cmp.mapping.abort(), select = cmp.mapping.confirm({select = true}), select_replace = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}), cr = _8_}, binh_key = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-u>"] = "scroll_next", ["<c-d>"] = "scroll_prev", ["<c-space>"] = "toggle", ["<c-e>"] = "abort", ["<c-y>"] = "select", ["<cr>"] = "select", ["<s-cr>"] = "select_replace", ["<c-cr>"] = "cr"}, binh_key_cmdline = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-space>"] = "toggle"}, sources = cmp.config.sources({{name = "nvim_lsp"}, {name = "path"}}, {{name = "buffer"}}), experimental = {ghost_text = {hl_group = "CmpGhostText"}}, sorting = defaults.sorting}
+  return {auto_brackets = {}, completion = {completeopt = "menu,menuone,noinsert"}, binh_action = {next = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Insert}), prev = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}), supertab_next = supertab_next, supertab_prev = supertab_prev, scroll_prev = cmp.mapping.scroll_docs(4), scroll_next = cmp.mapping.scroll_docs(-4), complete = cmp.mapping.complete(), toggle = _8_, abort = cmp.mapping.abort(), select = cmp.mapping.confirm({select = true}), select_replace = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}), cr = _10_}, binh_key = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-u>"] = "scroll_next", ["<c-d>"] = "scroll_prev", ["<c-space>"] = "toggle", ["<c-e>"] = "abort", ["<c-y>"] = "select", ["<cr>"] = "select", ["<s-cr>"] = "select_replace", ["<c-cr>"] = "cr"}, binh_key_cmdline = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-space>"] = "toggle"}, sources = cmp.config.sources({{name = "nvim_lsp"}, {name = "snippets"}, {name = "path"}}, {{name = "buffer"}}), formatting = {format = lspkind.cmp_format({})}, experimental = {ghost_text = {hl_group = "CmpGhostText"}}, sorting = defaults.sorting}
 end
 local function config(_, opts0)
   local cmp = require("cmp")
   for _0, source in ipairs(opts0.sources) do
     source.group_index = (source.group_index or 1)
   end
-  local function _9_()
+  local function _11_()
     local tbl_14_auto = {}
     for key, action in pairs(opts0.binh_key) do
       local k_15_auto, v_16_auto = key, (opts0.binh_action)[action]
@@ -67,10 +73,10 @@ local function config(_, opts0)
     end
     return tbl_14_auto
   end
-  opts0.mapping = cmp.mapping.preset.insert(_9_())
+  opts0.mapping = cmp.mapping.preset.insert(_11_())
   local Kind = cmp.lsp.CompletionItemKind
   local on_confirm
-  local function _11_(event)
+  local function _13_(event)
     if vim.tbl_contains((opts0.auto_brackets or {}), vim.bo.filetype) then
       local entry = event.entry
       local item = entry:get_completion_item()
@@ -84,9 +90,9 @@ local function config(_, opts0)
       return nil
     end
   end
-  on_confirm = _11_
+  on_confirm = _13_
   local cmdline_mapping
-  local function _14_()
+  local function _16_()
     local tbl_14_auto = {}
     for key, action in pairs(opts0.binh_key_cmdline) do
       local k_15_auto, v_16_auto = key, {c = (opts0.binh_action)[action]}
@@ -97,7 +103,7 @@ local function config(_, opts0)
     end
     return tbl_14_auto
   end
-  cmdline_mapping = cmp.mapping.preset.cmdline(_14_())
+  cmdline_mapping = cmp.mapping.preset.cmdline(_16_())
   cmp.setup(opts0)
   do end (cmp.event):on("confirm_done", on_confirm)
   cmp.setup.cmdline(":", {mapping = cmdline_mapping, sources = {{name = "cmdline", group_index = 1}, {name = "buffer", group_index = 2}}})
