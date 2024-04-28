@@ -20,10 +20,10 @@
       (load :autocmds))
     (autocmd :User {:group :BinhVim
                     :pattern :VeryLazy
-                    :callback #(do
-                                 (when lazy-autocmds?
-                                   (load :autocmds))
-                                 (load :keymaps))})))
+                    :callback (fn []
+                                (when lazy-autocmds?
+                                  (load :autocmds))
+                                (load :keymaps))})))
 
 {: init : setup}
 
