@@ -82,28 +82,37 @@
                        :hrsh7th/cmp-nvim-lsp
                        :hrsh7th/cmp-nvim-lua
                        :onsails/lspkind.nvim
-                       ;; Snippets
+                       ;; snippets
                        {1 :garymjr/nvim-snippets
                         :dependencies :rafamadriz/friendly-snippets
                         :keys (load-config :snippets :keys)
                         :opts (load-config :snippets :opts)}]
         :opts (load-config :cmp :opts)
         :config (load-config :cmp :config)}
-       ;; comments
-       {1 :numToStr/Comment.nvim
-        :dependencies [{1 :JoosepAlviste/nvim-ts-context-commentstring
-                        :opts {:enable_autocmd false}}]
-        :keys [{1 :gc :desc "+comment line" :mode [:n :x]}
-               {1 :gb :desc "+comment block" :mode [:n :x]}]
-        :opts (fn []
-                {:pre_hook ((. (require :ts_context_commentstring.integrations.comment_nvim)
-                               :create_pre_hook))})}
+       ;; auto pairs
        {1 :windwp/nvim-autopairs
         :event :InsertEnter
         :dependencies {1 :nvim-treesitter/nvim-treesitter
                        :opts {:autopairs {:enable true}}}
         :opts (load-config :autopairs :opts)
         :config (load-config :autopairs :config)}
+       ;; fast and feature-rich surround actions. For text that includes
+       ;; surrounding characters like brackets or quotes, this allows you
+       ;; to select the text inside, change or modify the surrounding characters,
+       ;; and more.
+       {1 :echasnovski/mini.surround
+        :keys (load-config :surround :keys)
+        :opts (load-config :surround :opts)}
+       ;; comments
+       {1 :numToStr/Comment.nvim
+        :dependencies [{1 :JoosepAlviste/nvim-ts-context-commentstring
+                        :lazy true
+                        :opts {:enable_autocmd false}}]
+        :keys [{1 :gc :desc "+comment line" :mode [:n :x]}
+               {1 :gb :desc "+comment block" :mode [:n :x]}]
+        :opts (fn []
+                {:pre_hook ((. (require :ts_context_commentstring.integrations.comment_nvim)
+                               :create_pre_hook))})}
        ;;; Editor
        ;; file explorer
        {1 :nvim-tree/nvim-tree.lua
