@@ -104,15 +104,21 @@
         :keys (load-config :surround :keys)
         :opts (load-config :surround :opts)}
        ;; comments
+       {1 :JoosepAlviste/nvim-ts-context-commentstring
+        :lazy true
+        :opts {:enable_autocmd false}}
        {1 :numToStr/Comment.nvim
-        :dependencies [{1 :JoosepAlviste/nvim-ts-context-commentstring
-                        :lazy true
-                        :opts {:enable_autocmd false}}]
         :keys [{1 :gc :desc "+comment line" :mode [:n :x]}
                {1 :gb :desc "+comment block" :mode [:n :x]}]
         :opts (fn []
                 {:pre_hook ((. (require :ts_context_commentstring.integrations.comment_nvim)
                                :create_pre_hook))})}
+       ;; better text-objects
+       {1 :echasnovski/mini.ai
+        :event :VeryLazy
+        :opts (load-config :ai :opts)
+        :config (load-config :ai :config)}
+       {1 :folke/which-key.nvim :opts (load-config :ai :wk_opts)}
        ;;; Editor
        ;; file explorer
        {1 :nvim-tree/nvim-tree.lua
