@@ -139,6 +139,22 @@
         :cmd :Oil
         :init #(run-when-directory (vim.cmd :Oil))
         :opts {}}
+       ;; Fuzzy finder.
+       ;; The default key bindings to find files will use Telescope's
+       ;; `find_files` or `git_files` depending on whether the
+       ;; directory is a git repo.
+       {1 :nvim-telescope/telescope.nvim
+        :cmd :Telescope
+        :version false
+        :dependencies [:nvim-telescope/telescope-symbols.nvim
+                       {1 :nvim-telescope/telescope-fzf-native.nvim
+                        :build (if (= (vim.fn.executable :make) 1) :make
+                                   "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build")
+                        :enabled (or (= (vim.fn.executable :make) 1)
+                                     (= (vim.fn.executable :cmake) 1))}]
+        :keys (load-config :telescope :keys)
+        :opts (load-config :telescope :opts)
+        :config (load-config :telescope :config)}
        ;; which-key helps you remember key bindings by showing a popup
        ;; with the active keybindings of the command you started typing.
        {1 :folke/which-key.nvim
