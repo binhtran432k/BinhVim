@@ -2,6 +2,15 @@
 
 (import-macros {: autocmd} :binhvim.macros)
 
+(macro close-with-q [buf]
+  `(do
+     (tset (. vim.bo buf) :buflisted false)
+     (vim.keymap.set :n :q :<cmd>close<cr>
+                     {:desc "Close window"
+                      :buffer buf
+                      :silent true
+                      :nowait true})))
+
 (fn setup []
   ;; Check if we need to reload the file when it changed
   (autocmd [:FocusGained :TermClose :TermLeave]
@@ -37,38 +46,35 @@
                                          (<= (. mark 1) lcount))
                                 (pcall vim.api.nvim_win_set_cursor 0 mark))))))})
   ;; Close some filetypes with <q>
-  (autocmd [:FileType]
-           {:group :close_with_q
+  (autocmd :FileType {:group :close_with_q_filetype
+                      :pattern [:help
+                                :PlenaryTestPopup
+                                :lspinfo
+                                :notify
+                                :qf
+                                :query
+                                :spectre_panel
+                                :startuptime
+                                :tsplayground
+                                :neotest-output
+                                :checkhealth
+                                :neotest-summary
+                                :neotest-output-panel]
+                      :callback (fn [{: buf}]
+                                  (close-with-q buf))})
+  ;; Close some buftypes with <q>
+  (autocmd :BufWinEnter
+           {:group :close_with_q_buftype
             :callback (fn [{: buf}]
                         (let [buftype (vim.api.nvim_get_option_value :buftype
                                                                      {: buf})
-                              filetype (. (. vim.bo buf) :filetype)
                               buftype-ignored? (and (vim.tbl_contains [:nofile
                                                                        :quickfix
                                                                        :help]
                                                                       buftype)
-                                                    (= (vim.fn.maparg :q :n) ""))
-                              filetype-ignored? (vim.tbl_contains [:help
-                                                                   :PlenaryTestPopup
-                                                                   :lspinfo
-                                                                   :notify
-                                                                   :qf
-                                                                   :query
-                                                                   :spectre_panel
-                                                                   :startuptime
-                                                                   :tsplayground
-                                                                   :neotest-output
-                                                                   :checkhealth
-                                                                   :neotest-summary
-                                                                   :neotest-output-panel]
-                                                                  filetype)]
-                          (when (or buftype-ignored? filetype-ignored?)
-                            (tset (. vim.bo buf) :buflisted false)
-                            (vim.keymap.set :n :q :<cmd>close<cr>
-                                            {:desc "Close window"
-                                             :buffer buf
-                                             :silent true
-                                             :nowait true}))))})
+                                                    (= (vim.fn.maparg :q :n) ""))]
+                          (when buftype-ignored?
+                            (close-with-q buf))))})
   ;; Make it easier to close man-files when opened inline
   (autocmd :FileType
            {:group :man_unlisted
@@ -98,15 +104,14 @@
                                                             ":p:h")
                                         :p)))})
   ;; Disable number and cursorline in terminal
-  (autocmd :TermOpen
-           {:group :simplify_terminal
-            :pattern "*"
-            :callback #(do
-                         (set vim.opt_local.number false)
-                         (set vim.opt_local.cursorline false)
-                         (set vim.opt_local.foldcolumn :0)
-                         (set vim.opt_local.signcolumn :no)
-                         (vim.cmd :startinsert))})
+  (autocmd :TermOpen {:group :simplify_terminal
+                      :pattern "*"
+                      :callback (fn []
+                                  (set vim.opt_local.number false)
+                                  (set vim.opt_local.cursorline false)
+                                  (set vim.opt_local.foldcolumn :0)
+                                  (set vim.opt_local.signcolumn :no)
+                                  (vim.cmd :startinsert))})
   ;; Disable miniindentscope, number, and cursorline in specific filetypes
   (autocmd :FileType
            {:group :simplify_ui
