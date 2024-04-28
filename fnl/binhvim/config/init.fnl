@@ -70,10 +70,10 @@
   (lazy-file))
 
 (fn setup [opts]
-  (let [;; autocmds can be loaded lazily when not opening a file
+  (let [colorscheme (or opts.colorscheme :dracula)
+        ;; autocmds can be loaded lazily when not opening a file
         lazy-autocmds? (= (vim.fn.argc -1) 0)]
-    (when opts.colorscheme
-      (pcall vim.cmd (.. "colorscheme " opts.colorscheme)))
+    (pcall vim.cmd (.. "colorscheme " colorscheme))
     (when (not lazy-autocmds?)
       (load :autocmds))
     (autocmd :User {:group :BinhVim

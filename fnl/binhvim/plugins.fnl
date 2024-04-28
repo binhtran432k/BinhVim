@@ -125,6 +125,8 @@
         :cmd :WhichKey
         :opts (load-config :whichkey :opts)
         :config (load-config :whichkey :config)}
+       ;;; Colorscheme
+       {1 :binhtran432k/dracula.nvim :lazy true}
        ;;; UI
        {1 :NvChad/nvim-colorizer.lua
         :event :VeryLazy
