@@ -75,38 +75,41 @@ else
       return nil
     end
   end
-  local _23_
-  if (vim.fn.executable("make") == 1) then
-    _23_ = "make"
-  else
-    _23_ = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+  local function _23_()
+    return (require("spectre")).open()
   end
-  local function _25_(...)
-    return (require("binhvim.config.plugins.telescope")).keys(...)
+  local _24_
+  if (vim.fn.executable("make") == 1) then
+    _24_ = "make"
+  else
+    _24_ = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
   end
   local function _26_(...)
-    return (require("binhvim.config.plugins.telescope")).opts(...)
+    return (require("binhvim.config.plugins.telescope")).keys(...)
   end
   local function _27_(...)
-    return (require("binhvim.config.plugins.telescope")).config(...)
+    return (require("binhvim.config.plugins.telescope")).opts(...)
   end
   local function _28_(...)
-    return (require("binhvim.config.plugins.whichkey")).opts(...)
+    return (require("binhvim.config.plugins.telescope")).config(...)
   end
   local function _29_(...)
-    return (require("binhvim.config.plugins.whichkey")).config(...)
+    return (require("binhvim.config.plugins.whichkey")).opts(...)
   end
   local function _30_(...)
-    return (require("binhvim.config.plugins.conform")).keys(...)
+    return (require("binhvim.config.plugins.whichkey")).config(...)
   end
   local function _31_(...)
-    return (require("binhvim.config.plugins.conform")).opts(...)
+    return (require("binhvim.config.plugins.conform")).keys(...)
   end
   local function _32_(...)
-    return (require("binhvim.config.plugins.mason")).init(...)
+    return (require("binhvim.config.plugins.conform")).opts(...)
   end
   local function _33_(...)
+    return (require("binhvim.config.plugins.mason")).init(...)
+  end
+  local function _34_(...)
     return (require("binhvim.config.plugins.mason")).opts(...)
   end
-  return {{"folke/lazy.nvim", version = "*"}, {"binhtran432k/BinhVim", priority = 10000, config = true, cond = true, version = "*", lazy = false}, {"Olical/nfnl", ft = "fennel", event = "LazyFile"}, {"dstein64/vim-startuptime", cmd = "StartupTime", config = _2_}, {"nvim-lua/plenary.nvim", lazy = true}, {"nvim-treesitter/nvim-treesitter", dependencies = {{"nvim-treesitter/nvim-treesitter-textobjects", config = _3_}, {"HiPhish/rainbow-delimiters.nvim"}}, event = {"LazyFile", "VeryLazy"}, cmd = {"TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo", "TSUninstall", "TSUpdate"}, keys = {{"<c-space>", desc = "Increment Selection"}, {"<bs>", desc = "Decrement Selection", mode = "x"}}, build = ":TSUpdate", init = _4_, opts = _5_, config = _6_, version = false}, {"windwp/nvim-ts-autotag", event = "LazyFile", ft = {"html", "javascript", "jsx", "typescript", "tsx", "svelte", "vue", "xml", "markdown"}, opts = {}}, {"hrsh7th/nvim-cmp", event = {"InsertEnter", "CmdlineEnter"}, dependencies = {"hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lua", "onsails/lspkind.nvim", {"garymjr/nvim-snippets", dependencies = "rafamadriz/friendly-snippets", keys = _7_, opts = _8_}}, opts = _9_, config = _10_, version = false}, {"windwp/nvim-autopairs", event = "InsertEnter", dependencies = {"nvim-treesitter/nvim-treesitter", opts = {autopairs = {enable = true}}}, opts = _11_, config = _12_}, {"echasnovski/mini.surround", keys = _13_, opts = _14_}, {"JoosepAlviste/nvim-ts-context-commentstring", lazy = true, opts = {enable_autocmd = false}}, {"numToStr/Comment.nvim", keys = {{"gc", desc = "+comment line", mode = {"n", "x"}}, {"gb", desc = "+comment block", mode = {"n", "x"}}}, opts = _15_}, {"echasnovski/mini.ai", event = "VeryLazy", opts = _16_, config = _17_}, {"folke/which-key.nvim", opts = _18_}, {"nvim-tree/nvim-tree.lua", version = "*", keys = {{"<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Explorer"}, {"<leader>fe", "<cmd>NvimTreeFindFileToggle<cr>", desc = "Explorer Focus File"}}, cmd = {"NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse"}, opts = {}, config = _19_}, {"stevearc/oil.nvim", keys = {{"-", "<cmd>Oil<cr>", desc = "Open parent directory"}}, cmd = "Oil", init = _20_, opts = {}}, {"nvim-telescope/telescope.nvim", cmd = "Telescope", dependencies = {"nvim-telescope/telescope-symbols.nvim", {"nvim-telescope/telescope-fzf-native.nvim", build = _23_, enabled = ((vim.fn.executable("make") == 1) or (vim.fn.executable("cmake") == 1))}}, keys = _25_, opts = _26_, config = _27_, version = false}, {"folke/which-key.nvim", event = "VeryLazy", cmd = "WhichKey", opts = _28_, config = _29_}, {"binhtran432k/dracula.nvim", lazy = true}, {"NvChad/nvim-colorizer.lua", event = "VeryLazy", opts = {user_default_options = {tailwind = true}}}, {"stevearc/conform.nvim", cmd = "ConformInfo", keys = _30_, opts = _31_}, {"williamboman/mason.nvim", cmd = {"Mason"}, keys = {{"<leader>cm", "<cmd>Mason<cr>", desc = "Mason"}}, init = _32_, opts = _33_}}
+  return {{"folke/lazy.nvim", version = "*"}, {"binhtran432k/BinhVim", priority = 10000, config = true, cond = true, version = "*", lazy = false}, {"Olical/nfnl", ft = "fennel", event = "LazyFile"}, {"dstein64/vim-startuptime", cmd = "StartupTime", config = _2_}, {"nvim-lua/plenary.nvim", lazy = true}, {"nvim-treesitter/nvim-treesitter", dependencies = {{"nvim-treesitter/nvim-treesitter-textobjects", config = _3_}, {"HiPhish/rainbow-delimiters.nvim"}}, event = {"LazyFile", "VeryLazy"}, cmd = {"TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo", "TSUninstall", "TSUpdate"}, keys = {{"<c-space>", desc = "Increment Selection"}, {"<bs>", desc = "Decrement Selection", mode = "x"}}, build = ":TSUpdate", init = _4_, opts = _5_, config = _6_, version = false}, {"windwp/nvim-ts-autotag", event = "LazyFile", ft = {"html", "javascript", "jsx", "typescript", "tsx", "svelte", "vue", "xml", "markdown"}, opts = {}}, {"hrsh7th/nvim-cmp", event = {"InsertEnter", "CmdlineEnter"}, dependencies = {"hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lua", "onsails/lspkind.nvim", {"garymjr/nvim-snippets", dependencies = "rafamadriz/friendly-snippets", keys = _7_, opts = _8_}}, opts = _9_, config = _10_, version = false}, {"windwp/nvim-autopairs", event = "InsertEnter", dependencies = {"nvim-treesitter/nvim-treesitter", opts = {autopairs = {enable = true}}}, opts = _11_, config = _12_}, {"echasnovski/mini.surround", keys = _13_, opts = _14_}, {"JoosepAlviste/nvim-ts-context-commentstring", lazy = true, opts = {enable_autocmd = false}}, {"numToStr/Comment.nvim", keys = {{"gc", desc = "+comment line", mode = {"n", "x"}}, {"gb", desc = "+comment block", mode = {"n", "x"}}}, opts = _15_}, {"echasnovski/mini.ai", event = "VeryLazy", opts = _16_, config = _17_}, {"folke/which-key.nvim", opts = _18_}, {"nvim-tree/nvim-tree.lua", version = "*", keys = {{"<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Explorer"}, {"<leader>fe", "<cmd>NvimTreeFindFileToggle<cr>", desc = "Explorer Focus File"}}, cmd = {"NvimTreeToggle", "NvimTreeFocus", "NvimTreeFindFile", "NvimTreeCollapse"}, opts = {}, config = _19_}, {"stevearc/oil.nvim", keys = {{"-", "<cmd>Oil<cr>", desc = "Open parent directory"}}, cmd = "Oil", init = _20_, opts = {}}, {"nvim-pack/nvim-spectre", cmd = "Spectre", opts = {open_cmd = "noswapfile vnew"}, keys = {{"<leader>sr", _23_, desc = "Replace in Files (Spectre)"}}, build = false}, {"nvim-telescope/telescope.nvim", cmd = "Telescope", dependencies = {"nvim-telescope/telescope-symbols.nvim", {"nvim-telescope/telescope-fzf-native.nvim", build = _24_, enabled = ((vim.fn.executable("make") == 1) or (vim.fn.executable("cmake") == 1))}}, keys = _26_, opts = _27_, config = _28_, version = false}, {"folke/which-key.nvim", event = "VeryLazy", cmd = "WhichKey", opts = _29_, config = _30_}, {"binhtran432k/dracula.nvim", lazy = true}, {"NvChad/nvim-colorizer.lua", event = "VeryLazy", opts = {user_default_options = {tailwind = true}}}, {"stevearc/conform.nvim", cmd = "ConformInfo", keys = _31_, opts = _32_}, {"williamboman/mason.nvim", cmd = {"Mason"}, keys = {{"<leader>cm", "<cmd>Mason<cr>", desc = "Mason"}}, init = _33_, opts = _34_}}
 end
