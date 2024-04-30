@@ -184,6 +184,14 @@
        {1 :lewis6991/gitsigns.nvim
         :event :LazyFile
         :opts (load-config :gitsigns :opts)}
+       ;; Automatically highlights other instances of the word under your cursor.
+       ;; This works with LSP, Treesitter, and regexp matching to find the other
+       ;; instances.
+       {1 :RRethy/vim-illuminate
+        :event :LazyFile
+        :keys [{1 "]]" :desc "Next Reference"} {1 "[[" :desc "Prev Reference"}]
+        :opts (load-config :illuminate :opts)
+        :config (load-config :illuminate :config)}
        ;;; Colorscheme
        {1 :binhtran432k/dracula.nvim :lazy true}
        ;;; UI
