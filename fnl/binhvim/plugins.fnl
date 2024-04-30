@@ -196,6 +196,11 @@
         :config (load-config :illuminate :config)}
        ;; buffer remove
        {1 :echasnovski/mini.bufremove :keys (load-config :bufremove :keys)}
+       ;; better diagnostics list and others
+       {1 :folke/trouble.nvim
+        :cmd [:TroubleToggle :Trouble]
+        :opts (load-config :trouble :opts)
+        :keys (load-config :trouble :keys)}
        ;;; Colorscheme
        {1 :binhtran432k/dracula.nvim :lazy true}
        ;;; UI
