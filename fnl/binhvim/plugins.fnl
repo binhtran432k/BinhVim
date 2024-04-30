@@ -194,6 +194,8 @@
         :keys [{1 "]]" :desc "Next Reference"} {1 "[[" :desc "Prev Reference"}]
         :opts (load-config :illuminate :opts)
         :config (load-config :illuminate :config)}
+       ;; buffer remove
+       {1 :echasnovski/mini.bufremove :keys (load-config :bufremove :keys)}
        ;;; Colorscheme
        {1 :binhtran432k/dracula.nvim :lazy true}
        ;;; UI
