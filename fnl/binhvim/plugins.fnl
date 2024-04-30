@@ -201,6 +201,13 @@
         :cmd [:TroubleToggle :Trouble]
         :opts (load-config :trouble :opts)
         :keys (load-config :trouble :keys)}
+       ;; Finds and lists all of the TODO, HACK, BUG, etc comment
+       ;; in your project and loads them into a browsable list.
+       {1 :folke/todo-comments.nvim
+        :cmd [:TodoTrouble :TodoTelescope]
+        :event :LazyFile
+        :config true
+        :keys (load-config :todo_comments :keys)}
        ;;; Colorscheme
        {1 :binhtran432k/dracula.nvim :lazy true}
        ;;; UI
