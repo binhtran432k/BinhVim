@@ -24,10 +24,19 @@
   (vim.api.nvim_set_hl 0 :CmpGhostText {:link :Comment :default true})
   (let [cmp (require :cmp)
         defaults ((require :cmp.config.default))
-        lspkind (require :lspkind)]
+        lspkind (require :lspkind)
+        cmp-window-opts (cmp.config.window.bordered {:winhighlight "CursorLine:Visual,Search:None"})]
     {;; configure any filetype to auto add brackets
      :auto_brackets []
+     :performance {:debounce 300 :throttle 60 :fetching_timeout 200}
      :completion {:completeopt "menu,menuone,noinsert"}
+     :sources (cmp.config.sources [{:name :nvim_lsp}
+                                   {:name :snippets}
+                                   {:name :nvim_lua}
+                                   {:name :buffer}
+                                   {:name :path}
+                                   {:name :calc}])
+     :window {:completion cmp_window_opts :documentation cmp_window_opts}
      :binh_action {:next (cmp.mapping.select_next_item {:behavior cmp.SelectBehavior.Insert})
                    :prev (cmp.mapping.select_prev_item {:behavior cmp.SelectBehavior.Insert})
                    :supertab_next supertab-next
@@ -57,10 +66,6 @@
                 :<s-cr> :select_replace
                 :<c-cr> :cr}
      :binh_key_cmdline {:<c-j> :next :<c-k> :prev :<c-space> :toggle}
-     :sources (cmp.config.sources [{:name :nvim_lsp}
-                                   {:name :snippets}
-                                   {:name :path}]
-                                  [{:name :buffer}])
      :formatting {:format (lspkind.cmp_format {})}
      :experimental {:ghost_text {:hl_group :CmpGhostText}}
      :sorting defaults.sorting}))

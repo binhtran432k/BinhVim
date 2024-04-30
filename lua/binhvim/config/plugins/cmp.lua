@@ -44,6 +44,7 @@ local function opts()
   local cmp = require("cmp")
   local defaults = require("cmp.config.default")()
   local lspkind = require("lspkind")
+  local cmp_window_opts = cmp.config.window.bordered({winhighlight = "CursorLine:Visual,Search:None"})
   local function _8_()
     if cmp.visible() then
       return cmp.close()
@@ -55,7 +56,7 @@ local function opts()
     cmp.abort()
     return fallback()
   end
-  return {auto_brackets = {}, completion = {completeopt = "menu,menuone,noinsert"}, binh_action = {next = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Insert}), prev = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}), supertab_next = supertab_next, supertab_prev = supertab_prev, scroll_prev = cmp.mapping.scroll_docs(4), scroll_next = cmp.mapping.scroll_docs(-4), complete = cmp.mapping.complete(), toggle = _8_, abort = cmp.mapping.abort(), select = cmp.mapping.confirm({select = true}), select_replace = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}), cr = _10_}, binh_key = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-u>"] = "scroll_next", ["<c-d>"] = "scroll_prev", ["<c-space>"] = "toggle", ["<c-e>"] = "abort", ["<c-y>"] = "select", ["<cr>"] = "select", ["<s-cr>"] = "select_replace", ["<c-cr>"] = "cr"}, binh_key_cmdline = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-space>"] = "toggle"}, sources = cmp.config.sources({{name = "nvim_lsp"}, {name = "snippets"}, {name = "path"}}, {{name = "buffer"}}), formatting = {format = lspkind.cmp_format({})}, experimental = {ghost_text = {hl_group = "CmpGhostText"}}, sorting = defaults.sorting}
+  return {auto_brackets = {}, performance = {debounce = 300, throttle = 60, fetching_timeout = 200}, completion = {completeopt = "menu,menuone,noinsert"}, sources = cmp.config.sources({{name = "nvim_lsp"}, {name = "snippets"}, {name = "nvim_lua"}, {name = "buffer"}, {name = "path"}, {name = "calc"}}), window = {completion = cmp_window_opts, documentation = cmp_window_opts}, binh_action = {next = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Insert}), prev = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}), supertab_next = supertab_next, supertab_prev = supertab_prev, scroll_prev = cmp.mapping.scroll_docs(4), scroll_next = cmp.mapping.scroll_docs(-4), complete = cmp.mapping.complete(), toggle = _8_, abort = cmp.mapping.abort(), select = cmp.mapping.confirm({select = true}), select_replace = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}), cr = _10_}, binh_key = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-u>"] = "scroll_next", ["<c-d>"] = "scroll_prev", ["<c-space>"] = "toggle", ["<c-e>"] = "abort", ["<c-y>"] = "select", ["<cr>"] = "select", ["<s-cr>"] = "select_replace", ["<c-cr>"] = "cr"}, binh_key_cmdline = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-space>"] = "toggle"}, formatting = {format = lspkind.cmp_format({})}, experimental = {ghost_text = {hl_group = "CmpGhostText"}}, sorting = defaults.sorting}
 end
 local function config(_, opts0)
   local cmp = require("cmp")

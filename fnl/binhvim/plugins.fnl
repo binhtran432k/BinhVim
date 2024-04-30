@@ -80,7 +80,9 @@
                        :hrsh7th/cmp-path
                        :hrsh7th/cmp-cmdline
                        :hrsh7th/cmp-nvim-lsp
-                       :hrsh7th/cmp-nvim-lua
+                       {1 :binhtran432k/cmp-nvim-lua :branch :feature/fennel}
+                       ;:hrsh7th/cmp-nvim-lua
+                       :hrsh7th/cmp-calc
                        :onsails/lspkind.nvim
                        ;; snippets
                        {1 :garymjr/nvim-snippets
