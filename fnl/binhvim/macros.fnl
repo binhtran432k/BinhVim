@@ -10,5 +10,11 @@
                                  :desc ,desc
                                  :pattern ,pattern}))
 
-{: autocmd}
+(fn run-in-directory? [cmd]
+  `(when (= (vim.fn.argc -1) 1)
+     (let [stat# (vim.uv.fs_stat (vim.fn.argv 0))]
+       (when (and stat# (= stat#.type :directory))
+         ,cmd))))
+
+{: autocmd : run-in-directory?}
 
