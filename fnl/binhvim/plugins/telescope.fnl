@@ -78,9 +78,7 @@
                find-files-no-ignore #(find-files {:no_ignore true})
                find-files-with-hidden #(find-files {:hidden true})]
            {:binh_onload {:fzf #(telescope.load_extension :fzf)}
-            :defaults {:prompt_prefix " "
-                       :selection_caret " "
-                       ;; open files in the first window that is an actual file.
+            :defaults {;; open files in the first window that is an actual file.
                        ;; use the current window if no other window is available.
                        :get_selection_window (fn []
                                                (let [wins (vim.api.nvim_list_wins)

@@ -57,7 +57,7 @@ local function _3_()
     end
     return found_win
   end
-  return {binh_onload = {fzf = _10_}, defaults = {prompt_prefix = "\239\129\148 ", selection_caret = "\239\145\138 ", get_selection_window = _11_, mappings = {i = {["<c-t>"] = open_with_trouble, ["<a-t>"] = open_selected_with_trouble, ["<a-i>"] = find_files_no_ignore, ["<a-h>"] = find_files_with_hidden, ["<c-down>"] = actions.cycle_history_next, ["<c-up>"] = actions.cycle_history_prev, ["<c-j>"] = actions.move_selection_next, ["<c-k>"] = actions.move_selection_previous, ["<c-d>"] = actions.preview_scrolling_down, ["<c-u>"] = actions.preview_scrolling_up}, n = {q = actions.close, ["<c-j>"] = actions.move_selection_next, ["<c-k>"] = actions.move_selection_previous}}}}
+  return {binh_onload = {fzf = _10_}, defaults = {get_selection_window = _11_, mappings = {i = {["<c-t>"] = open_with_trouble, ["<a-t>"] = open_selected_with_trouble, ["<a-i>"] = find_files_no_ignore, ["<a-h>"] = find_files_with_hidden, ["<c-down>"] = actions.cycle_history_next, ["<c-up>"] = actions.cycle_history_prev, ["<c-j>"] = actions.move_selection_next, ["<c-k>"] = actions.move_selection_previous, ["<c-d>"] = actions.preview_scrolling_down, ["<c-u>"] = actions.preview_scrolling_up}, n = {q = actions.close, ["<c-j>"] = actions.move_selection_next, ["<c-k>"] = actions.move_selection_previous}}}}
 end
 local function _13_(_, opts)
   do

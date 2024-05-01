@@ -12,5 +12,5 @@ else
     vim.g.startuptime_tries = 10
     return nil
   end
-  return {{"folke/lazy.nvim", version = "*"}, {"binhtran432k/BinhVim", priority = 10000, config = true, cond = true, version = "*", lazy = false}, {"Olical/nfnl", ft = "fennel", event = "LazyFile"}, {"dstein64/vim-startuptime", cmd = "StartupTime", config = _2_}, {"nvim-lua/plenary.nvim", lazy = true}, {"binhtran432k/dracula.nvim", lazy = true}}
+  return {{"folke/lazy.nvim", version = "*"}, {"binhtran432k/BinhVim", priority = 10000, config = true, cond = true, version = "*", lazy = false}, {"Olical/nfnl", ft = "fennel", event = "LazyFile"}, {"dstein64/vim-startuptime", cmd = "StartupTime", config = _2_}, {"nvim-lua/plenary.nvim", lazy = true}, {"binhtran432k/dracula.nvim", lazy = true}, {"nvim-tree/nvim-web-devicons", lazy = true}}
 end

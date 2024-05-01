@@ -1,0 +1,2 @@
+-- [nfnl] Compiled from fnl/binhvim/plugins/indent_blankline.fnl by https://github.com/Olical/nfnl, do not edit.
+return {"lukas-reineke/indent-blankline.nvim", event = "LazyFile", opts = {indent = {char = "\226\148\130", tab_char = "\226\148\130"}, scope = {enabled = false}, exclude = {filetypes = {"help", "alpha", "dashboard", "neo-tree", "Trouble", "trouble", "lazy", "mason", "notify", "toggleterm", "lazyterm"}}}, main = "ibl"}

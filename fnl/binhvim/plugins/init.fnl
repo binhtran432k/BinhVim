@@ -28,5 +28,8 @@
        ;; library used by other plugins
        {1 :nvim-lua/plenary.nvim :lazy true}
        ;;; Colorscheme
-       {1 :binhtran432k/dracula.nvim :lazy true}]))
+       {1 :binhtran432k/dracula.nvim :lazy true}
+       ;;; UI
+       ;; icons
+       {1 :nvim-tree/nvim-web-devicons :lazy true}]))
 

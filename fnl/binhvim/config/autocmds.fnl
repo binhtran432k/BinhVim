@@ -11,6 +11,13 @@
                       :silent true
                       :nowait true})))
 
+(macro set-indent [opts]
+  `(let [args# (. ,opts :args)
+         indent# (if (not= args# "") (tonumber args#) 4)]
+     (tset vim.bo :shiftwidth indent#)
+     (tset vim.bo :softtabstop indent#)
+     (tset vim.bo :tabstop indent#)))
+
 (fn setup []
   ;; Check if we need to reload the file when it changed
   (autocmd [:FocusGained :TermClose :TermLeave]
@@ -34,7 +41,7 @@
   (autocmd :BufReadPost
            {:group :last_loc
             :callback (fn [event]
-                        (let [excludes [:gitcommit]
+                        (let [excludes [:gitcommit :starter]
                               buf event.buf
                               ft (. (. vim.bo buf) :filetype)
                               buf_vars (. vim.b buf)]
@@ -141,7 +148,17 @@
             :callback #(do
                          (set vim.opt_local.number false)
                          (set vim.opt_local.cursorline false)
-                         (set vim.b.miniindentscope_disable true))}))
+                         (set vim.b.miniindentscope_disable true))})
+  (vim.api.nvim_create_user_command :IndentTab
+                                    (fn [opts]
+                                      (set vim.bo.expandtab false)
+                                      (set-indent opts))
+                                    {:nargs "?"})
+  (vim.api.nvim_create_user_command :IndentSpace
+                                    (fn [opts]
+                                      (set vim.bo.expandtab true)
+                                      (set-indent opts))
+                                    {:nargs "?"}))
 
 {: setup}
 

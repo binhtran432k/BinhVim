@@ -20,4 +20,4 @@ local function _1_(buffer)
   vim.keymap.set("n", "<leader>ghD", _3_, {buffer = buffer, desc = "Diff This ~"})
   return vim.keymap.set({"o", "x"}, "ih", ":<C-U>Gitsigns select_hunk<CR>", {buffer = buffer, desc = "GitSigns Select Hunk"})
 end
-return {"lewis6991/gitsigns.nvim", event = "LazyFile", opts = {signs = {add = {text = "\226\150\142"}, change = {text = "\226\150\142"}, delete = {text = "\239\131\154"}, topdelete = {text = "\239\131\154"}, changedelete = {text = "\226\150\142"}, untracked = {text = "\226\150\142"}}, on_attach = _1_}}
+return {"lewis6991/gitsigns.nvim", event = "LazyFile", opts = {on_attach = _1_}}

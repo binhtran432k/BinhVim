@@ -19,7 +19,7 @@ local function setup()
   end
   vim.api.nvim_create_autocmd("VimResized", {callback = _4_, group = vim.api.nvim_create_augroup("binhvim_resize_splits", {clear = true})})
   local function _5_(event)
-    local excludes = {"gitcommit"}
+    local excludes = {"gitcommit", "starter"}
     local buf = event.buf
     local ft = vim.bo[buf].filetype
     local buf_vars = vim.b[buf]
@@ -95,6 +95,36 @@ local function setup()
     vim.b.miniindentscope_disable = true
     return nil
   end
-  return vim.api.nvim_create_autocmd("FileType", {callback = _21_, group = vim.api.nvim_create_augroup("binhvim_simplify_ui", {clear = true}), pattern = {"neo-tree", "PlenaryTestPopup", "checkhealth", "fugitive", "git", "gitcommit", "help", "lazy", "lazyterm", "lspinfo", "man", "mason", "notify", "qf", "NvimTree", "query", "spectre_panel", "startuptime", "tsplayground", "Trouble", "trouble", "toggleterm"}})
+  vim.api.nvim_create_autocmd("FileType", {callback = _21_, group = vim.api.nvim_create_augroup("binhvim_simplify_ui", {clear = true}), pattern = {"neo-tree", "PlenaryTestPopup", "checkhealth", "fugitive", "git", "gitcommit", "help", "lazy", "lazyterm", "lspinfo", "man", "mason", "notify", "qf", "NvimTree", "query", "spectre_panel", "startuptime", "tsplayground", "Trouble", "trouble", "toggleterm"}})
+  local function _22_(opts)
+    vim.bo.expandtab = false
+    local args_2_auto = opts.args
+    local indent_3_auto
+    if (args_2_auto ~= "") then
+      indent_3_auto = tonumber(args_2_auto)
+    else
+      indent_3_auto = 4
+    end
+    vim.bo["shiftwidth"] = indent_3_auto
+    vim.bo["softtabstop"] = indent_3_auto
+    vim.bo["tabstop"] = indent_3_auto
+    return nil
+  end
+  vim.api.nvim_create_user_command("IndentTab", _22_, {nargs = "?"})
+  local function _24_(opts)
+    vim.bo.expandtab = true
+    local args_2_auto = opts.args
+    local indent_3_auto
+    if (args_2_auto ~= "") then
+      indent_3_auto = tonumber(args_2_auto)
+    else
+      indent_3_auto = 4
+    end
+    vim.bo["shiftwidth"] = indent_3_auto
+    vim.bo["softtabstop"] = indent_3_auto
+    vim.bo["tabstop"] = indent_3_auto
+    return nil
+  end
+  return vim.api.nvim_create_user_command("IndentSpace", _24_, {nargs = "?"})
 end
 return {setup = setup}

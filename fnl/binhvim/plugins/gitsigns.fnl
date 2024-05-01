@@ -3,13 +3,7 @@
 ;; hunks in a commit.
 {1 :lewis6991/gitsigns.nvim
  :event :LazyFile
- :opts {:signs {:add {:text "▎"}
-                :change {:text "▎"}
-                :delete {:text ""}
-                :topdelete {:text ""}
-                :changedelete {:text "▎"}
-                :untracked {:text "▎"}}
-        :on_attach (fn [buffer]
+ :opts {:on_attach (fn [buffer]
                      (macro map [mode l r desc]
                        `(vim.keymap.set ,mode ,l ,r {: buffer :desc ,desc}))
                      (let [gs package.loaded.gitsigns]
