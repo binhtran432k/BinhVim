@@ -13,8 +13,14 @@
          (let [lualine_require (require :lualine_require)]
            (set lualine_require.require require))
          (set vim.o.laststatus vim.g.lualine_laststatus)
-         (local debug-color (string.format "#%06x" (. (vim.api.nvim_get_hl_by_name :Debug true) :foreground)))
-         (local special-color (string.format "#%06x" (. (vim.api.nvim_get_hl_by_name :Special true) :foreground)))
+         (local debug-color
+                (string.format "#%06x"
+                               (. (vim.api.nvim_get_hl_by_name :Debug true)
+                                  :foreground)))
+         (local special-color
+                (string.format "#%06x"
+                               (. (vim.api.nvim_get_hl_by_name :Special true)
+                                  :foreground)))
          {:options {:theme :auto
                     :globalstatus true
                     :component_separators {:left "|" :right "|"}
@@ -24,8 +30,15 @@
                                                       :starter]}}
           :sections {:lualine_a [:mode]
                      :lualine_b [:branch]
-                     :lualine_c [:diagnostics
-                                 {1 :filetype :icon_only true :separator ""}
+                     :lualine_c [{1 :diagnostics
+                                  :symbols {:error :E
+                                            :warn :W
+                                            :info :I
+                                            :hint :H}}
+                                 {1 :filetype
+                                  :icon_only true
+                                  :separator ""
+                                  :padding {:left 1 :right 0}}
                                  {1 :filename :padding {:left 0 :right 0}}]
                      :lualine_x [{1 #(.. "  " ((. (require :dap) :status)))
                                   :cond #(and (. package.loaded :dap)
