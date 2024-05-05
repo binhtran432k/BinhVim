@@ -3,7 +3,7 @@
  :dependencies :rafamadriz/friendly-snippets
  :keys [{1 :<tab>
          2 (fn []
-             (if (vim.snippet.jumpable 1)
+             (if (vim.snippet.active {:direction 1})
                  (vim.schedule #(vim.snippet.jump 1))
                  :<tab>))
          :expr true
@@ -17,7 +17,7 @@
          :mode :s}
         {1 :<s-tab>
          2 (fn []
-             (if (vim.snippet.jumpable -1)
+             (if (vim.snippet.active {:direction -1})
                  (vim.schedule #(vim.snippet.jump -1))
                  :<s-tab>))
          :expr true

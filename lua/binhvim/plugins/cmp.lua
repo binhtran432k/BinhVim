@@ -15,7 +15,7 @@ local function supertab_next(fallback)
   local cmp = require("cmp")
   if cmp.visible() then
     return cmp.select_next_item()
-  elseif vim.snippet.jumpable(1) then
+  elseif vim.snippet.active({direction = 1}) then
     local function _4_()
       return vim.snippet.jump(1)
     end
@@ -30,7 +30,7 @@ local function supertab_prev(fallback)
   local cmp = require("cmp")
   if cmp.visible() then
     return cmp.select_prev_item()
-  elseif vim.snippet.jumpable(-1) then
+  elseif vim.snippet.active({direction = -1}) then
     local function _6_()
       return vim.snippet.jump(-1)
     end

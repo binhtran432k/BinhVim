@@ -1,6 +1,6 @@
 -- [nfnl] Compiled from fnl/binhvim/plugins/snippets.fnl by https://github.com/Olical/nfnl, do not edit.
 local function _1_()
-  if vim.snippet.jumpable(1) then
+  if vim.snippet.active({direction = 1}) then
     local function _2_()
       return vim.snippet.jump(1)
     end
@@ -16,7 +16,7 @@ local function _4_()
   return vim.schedule(_5_)
 end
 local function _6_()
-  if vim.snippet.jumpable(-1) then
+  if vim.snippet.active({direction = -1}) then
     local function _7_()
       return vim.snippet.jump(-1)
     end

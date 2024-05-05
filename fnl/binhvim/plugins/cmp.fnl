@@ -10,14 +10,14 @@
 (fn supertab-next [fallback]
   (local cmp (require :cmp))
   (if (cmp.visible) (cmp.select_next_item)
-      (vim.snippet.jumpable 1) (vim.schedule #(vim.snippet.jump 1))
+      (vim.snippet.active {:direction 1}) (vim.schedule #(vim.snippet.jump 1))
       (has_words_before) (cmp.complete)
       (fallback)))
 
 (fn supertab-prev [fallback]
   (local cmp (require :cmp))
   (if (cmp.visible) (cmp.select_prev_item)
-      (vim.snippet.jumpable -1) (vim.schedule #(vim.snippet.jump -1))
+      (vim.snippet.active {:direction -1}) (vim.schedule #(vim.snippet.jump -1))
       (fallback)))
 
 ;; auto completion
