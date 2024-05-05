@@ -52,18 +52,25 @@ local function _8_()
       return cmp.complete()
     end
   end
-  local function _11_(fallback)
+  local function _11_()
+    if cmp.visible_docs() then
+      return cmp.close_docs()
+    else
+      return cmp.open_docs()
+    end
+  end
+  local function _13_(fallback)
     cmp.abort()
     return fallback()
   end
-  return {auto_brackets = {}, performance = {debounce = 300, throttle = 60, fetching_timeout = 200}, completion = {completeopt = "menu,menuone,noinsert"}, sources = cmp.config.sources({{name = "nvim_lsp"}, {name = "snippets"}, {name = "nvim_lua"}, {name = "buffer"}, {name = "path"}, {name = "calc"}}), window = {completion = cmp_window_opts, documentation = cmp_window_opts}, binh_action = {next = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Insert}), prev = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}), supertab_next = supertab_next, supertab_prev = supertab_prev, scroll_prev = cmp.mapping.scroll_docs(4), scroll_next = cmp.mapping.scroll_docs(-4), complete = cmp.mapping.complete(), toggle = _9_, abort = cmp.mapping.abort(), select = cmp.mapping.confirm({select = true}), select_replace = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}), cr = _11_}, binh_key = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-u>"] = "scroll_next", ["<c-d>"] = "scroll_prev", ["<c-space>"] = "toggle", ["<c-e>"] = "abort", ["<c-y>"] = "select", ["<cr>"] = "select", ["<s-cr>"] = "select_replace", ["<c-cr>"] = "cr"}, binh_key_cmdline = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-space>"] = "toggle"}, formatting = {format = lspkind.cmp_format({})}, experimental = {ghost_text = {hl_group = "CmpGhostText"}}, sorting = defaults.sorting}
+  return {auto_brackets = {}, performance = {debounce = 300, throttle = 60, fetching_timeout = 200}, completion = {completeopt = "menu,menuone,noinsert"}, sources = cmp.config.sources({{name = "nvim_lsp"}, {name = "snippets"}, {name = "nvim_lua"}, {name = "buffer"}, {name = "path"}, {name = "calc"}}), window = {completion = cmp_window_opts, documentation = cmp_window_opts}, view = {docs = {auto_open = false}}, binh_action = {next = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Insert}), prev = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Insert}), supertab_next = supertab_next, supertab_prev = supertab_prev, scroll_prev = cmp.mapping.scroll_docs(4), scroll_next = cmp.mapping.scroll_docs(-4), complete = cmp.mapping.complete(), toggle = _9_, toggle_docs = _11_, abort = cmp.mapping.abort(), select = cmp.mapping.confirm({select = true}), select_replace = cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true}), cr = _13_}, binh_key = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-u>"] = "scroll_next", ["<c-d>"] = "scroll_prev", ["<c-space>"] = "toggle", ["<c-e>"] = "abort", ["<c-g>"] = "toggle_docs", ["<c-y>"] = "select", ["<cr>"] = "select", ["<s-cr>"] = "select_replace", ["<c-cr>"] = "cr"}, binh_key_cmdline = {["<c-j>"] = "next", ["<c-k>"] = "prev", ["<c-space>"] = "toggle"}, formatting = {format = lspkind.cmp_format({})}, experimental = {ghost_text = {hl_group = "CmpGhostText"}}, sorting = defaults.sorting}
 end
-local function _12_(_, opts)
+local function _14_(_, opts)
   local cmp = require("cmp")
   for _0, source in ipairs(opts.sources) do
     source.group_index = (source.group_index or 1)
   end
-  local function _13_()
+  local function _15_()
     local tbl_14_auto = {}
     for key, action in pairs(opts.binh_key) do
       local k_15_auto, v_16_auto = key, opts.binh_action[action]
@@ -74,10 +81,10 @@ local function _12_(_, opts)
     end
     return tbl_14_auto
   end
-  opts.mapping = cmp.mapping.preset.insert(_13_())
+  opts.mapping = cmp.mapping.preset.insert(_15_())
   local Kind = cmp.lsp.CompletionItemKind
   local on_confirm
-  local function _15_(event)
+  local function _17_(event)
     if vim.tbl_contains((opts.auto_brackets or {}), vim.bo.filetype) then
       local entry = event.entry
       local item = entry:get_completion_item()
@@ -91,9 +98,9 @@ local function _12_(_, opts)
       return nil
     end
   end
-  on_confirm = _15_
+  on_confirm = _17_
   local cmdline_mapping
-  local function _18_()
+  local function _20_()
     local tbl_14_auto = {}
     for key, action in pairs(opts.binh_key_cmdline) do
       local k_15_auto, v_16_auto = key, {c = opts.binh_action[action]}
@@ -104,7 +111,7 @@ local function _12_(_, opts)
     end
     return tbl_14_auto
   end
-  cmdline_mapping = cmp.mapping.preset.cmdline(_18_())
+  cmdline_mapping = cmp.mapping.preset.cmdline(_20_())
   cmp.setup(opts)
   do end (cmp.event):on("confirm_done", on_confirm)
   cmp.setup.cmdline(":", {mapping = cmdline_mapping, sources = {{name = "cmdline", group_index = 1}, {name = "buffer", group_index = 2}}})
@@ -113,4 +120,4 @@ local function _12_(_, opts)
   end
   return nil
 end
-return {"hrsh7th/nvim-cmp", event = {"InsertEnter", "CmdlineEnter"}, dependencies = {"hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-nvim-lsp", {"binhtran432k/cmp-nvim-lua", branch = "feature/fennel"}, "hrsh7th/cmp-calc", "onsails/lspkind.nvim"}, opts = _8_, config = _12_, version = false}
+return {"hrsh7th/nvim-cmp", event = {"InsertEnter", "CmdlineEnter"}, dependencies = {"hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline", "hrsh7th/cmp-nvim-lsp", {"binhtran432k/cmp-nvim-lua", branch = "feature/fennel"}, "hrsh7th/cmp-calc", "onsails/lspkind.nvim"}, opts = _8_, config = _14_, version = false}

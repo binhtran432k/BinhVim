@@ -50,15 +50,17 @@
                                           {:name :calc}])
             :window {:completion cmp_window_opts
                      :documentation cmp_window_opts}
+            :view {:docs {:auto_open false}}
             :binh_action {:next (cmp.mapping.select_next_item {:behavior cmp.SelectBehavior.Insert})
                           :prev (cmp.mapping.select_prev_item {:behavior cmp.SelectBehavior.Insert})
                           :supertab_next supertab-next
                           :supertab_prev supertab-prev
                           :scroll_prev (cmp.mapping.scroll_docs 4)
                           :scroll_next (cmp.mapping.scroll_docs -4)
-                          :scroll_prev (cmp.mapping.scroll_docs 4)
                           :complete (cmp.mapping.complete)
                           :toggle #(if (cmp.visible) (cmp.close) (cmp.complete))
+                          :toggle_docs #(if (cmp.visible_docs) (cmp.close_docs)
+                                            (cmp.open_docs))
                           :abort (cmp.mapping.abort)
                           ;; Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                           :select (cmp.mapping.confirm {:select true})
@@ -74,6 +76,7 @@
                        :<c-d> :scroll_prev
                        :<c-space> :toggle
                        :<c-e> :abort
+                       :<c-g> :toggle_docs
                        :<c-y> :select
                        :<cr> :select
                        :<s-cr> :select_replace
