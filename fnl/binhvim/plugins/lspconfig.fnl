@@ -14,7 +14,7 @@
   (map :gy #((. require :telescope.builtin) :lsp_type_definitions
                                             {:reuse_win true})
        {:desc "Goto T[y]pe Definition"})
-  (map :K vim.lsp.buf.hover {:desc :Hover})
+  (map :K vim.lsp.buf.hover {:desc :Hover :silent true})
   (map :gK vim.lsp.buf.signature_help {:desc "Signature Help"})
   (map :<c-k> vim.lsp.buf.signature_help {:mode :i :desc "Signature Help"})
   (map :<leader>ca vim.lsp.buf.code_action {:desc "Code Action" :mode [:n :v]})
@@ -94,7 +94,11 @@
                         ret))))
             (let [border :rounded]
               (tset vim.lsp.handlers :textDocument/hover
-                    (vim.lsp.with vim.lsp.handlers.hover {: border}))
+                    (vim.lsp.with (fn [_nil result ctx config]
+                                    (when result
+                                      (vim.lsp.handlers.hover _nil result ctx
+                                                              config)))
+                      {: border}))
               (tset vim.lsp.handlers :textDocument/signatureHelp
                     (vim.lsp.with vim.lsp.handlers.signature_help {: border})))
             ;; diagnostics signs
@@ -150,6 +154,14 @@
                           {: setup} (. lspconfig server)]
                       (setup server-opts)))))
 
+              ;; load typescript tools if it is installed
+              (let [lazy-config (require :lazy.core.config)
+                    plugin (. lazy-config.spec.plugins :typescript-tools.nvim)]
+                (when (not= plugin nil)
+                  (let [typescript (require :typescript-tools)
+                        lazy-plugin (require :lazy.core.plugin)
+                        plugin-opts (lazy-plugin.values plugin :opts false)]
+                    (typescript.setup plugin-opts))))
               (each [server server-opts (pairs servers)]
                 (when server-opts
                   (setup server))))

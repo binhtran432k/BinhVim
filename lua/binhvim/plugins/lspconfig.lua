@@ -15,7 +15,7 @@ local function attach_keys(_, buffer)
     return require["telescope.builtin"]("lsp_type_definitions", {reuse_win = true})
   end
   vim.keymap.set("n", "gy", _3_, {buffer = buffer, desc = "Goto T[y]pe Definition"})
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer = buffer, desc = "Hover"})
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer = buffer, desc = "Hover", silent = true})
   vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, {buffer = buffer, desc = "Signature Help"})
   vim.keymap.set("i", "<c-k>", vim.lsp.buf.signature_help, {buffer = buffer, desc = "Signature Help"})
   vim.keymap.set({"n", "v"}, "<leader>ca", vim.lsp.buf.code_action, {buffer = buffer, desc = "Code Action"})
@@ -54,7 +54,14 @@ local function _5_(_, opts)
   end
   do
     local border = "rounded"
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = border})
+    local function _8_(_nil, result, ctx, config)
+      if result then
+        return vim.lsp.handlers.hover(_nil, result, ctx, config)
+      else
+        return nil
+      end
+    end
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(_8_, {border = border})
     do end (vim.lsp.handlers)["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = border})
   end
   if (vim.fn.has("nvim-0.10.0") == 0) then
@@ -67,7 +74,7 @@ local function _5_(_, opts)
   else
   end
   if (opts.codelens.enabled and vim.lsp.codelens) then
-    local function _9_(client, buffer)
+    local function _11_(client, buffer)
       if client.supports_method["textDocument/codeLens"] then
         vim.lsp.codelens.refresh()
         return vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "InsertLeave"}, {buffer = buffer, callback = vim.lsp.codelens.refresh})
@@ -75,7 +82,7 @@ local function _5_(_, opts)
         return nil
       end
     end
-    table.insert(on_attachs, _9_)
+    table.insert(on_attachs, _11_)
   else
   end
   vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
@@ -83,13 +90,13 @@ local function _5_(_, opts)
     local servers = opts.servers
     local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
     local capabilities
-    local _12_
+    local _14_
     if has_cmp then
-      _12_ = cmp_nvim_lsp.default_capabilities()
+      _14_ = cmp_nvim_lsp.default_capabilities()
     else
-      _12_ = {}
+      _14_ = {}
     end
-    capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), _12_, (opts.capabilities or {}))
+    capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), _14_, (opts.capabilities or {}))
     local function setup(server)
       local server_opts = vim.tbl_deep_extend("force", {capabilities = vim.deepcopy(capabilities)}, (servers[server] or {}))
       local server_setup
@@ -108,11 +115,22 @@ local function _5_(_, opts)
       end
       if not server_setup0 then
         local lspconfig = require("lspconfig")
-        local _let_16_ = lspconfig[server]
-        local setup0 = _let_16_["setup"]
+        local _let_18_ = lspconfig[server]
+        local setup0 = _let_18_["setup"]
         return setup0(server_opts)
       else
         return nil
+      end
+    end
+    do
+      local lazy_config = require("lazy.core.config")
+      local plugin = lazy_config.spec.plugins["typescript-tools.nvim"]
+      if (plugin ~= nil) then
+        local typescript = require("typescript-tools")
+        local lazy_plugin = require("lazy.core.plugin")
+        local plugin_opts = lazy_plugin.values(plugin, "opts", false)
+        typescript.setup(plugin_opts)
+      else
       end
     end
     for server, server_opts in pairs(servers) do
@@ -122,7 +140,7 @@ local function _5_(_, opts)
       end
     end
   end
-  local function _19_(args)
+  local function _22_(args)
     local buffer = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     for _0, on_attach in ipairs(on_attachs) do
@@ -130,6 +148,6 @@ local function _5_(_, opts)
     end
     return nil
   end
-  return vim.api.nvim_create_autocmd("LspAttach", {callback = _19_})
+  return vim.api.nvim_create_autocmd("LspAttach", {callback = _22_})
 end
 return {{"neovim/nvim-lspconfig", event = "LazyFile", dependencies = {{"folke/neoconf.nvim", cmd = "Neoconf", dependencies = {"nvim-lspconfig"}, config = false}, "mason.nvim"}, opts = {diagnostics = {underline = true, float = {border = "rounded"}, virtual_text = {spacing = 4, source = "if_many", prefix = "\226\151\143"}, severity_sort = true, signs = {text = {}}, update_in_insert = false}, inlay_hints = {enabled = false}, codelens = {enabled = false}, capabilities = {}, servers = {lua_ls = {settings = {Lua = {workspace = {checkThirdParty = false}, codeLens = {enable = true}, completion = {callSnippet = "Replace"}}}}}, setup = {}}, config = _5_}}
