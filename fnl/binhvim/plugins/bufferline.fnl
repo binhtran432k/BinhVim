@@ -15,8 +15,8 @@
         {1 :<leader>bl
          2 :<cmd>BufferLineCloseLeft<cr>
          :desc "Delete Buffers to the Left"}
-        {1 :<S-h> 2 :<cmd>BufferLineCyclePrev<cr> :desc "Prev Buffer"}
-        {1 :<S-l> 2 :<cmd>BufferLineCycleNext<cr> :desc "Next Buffer"}
+        {1 :<s-h> 2 :<cmd>BufferLineCyclePrev<cr> :desc "Prev Buffer"}
+        {1 :<s-l> 2 :<cmd>BufferLineCycleNext<cr> :desc "Next Buffer"}
         {1 "[b" 2 :<cmd>BufferLineCyclePrev<cr> :desc "Prev Buffer"}
         {1 "]b" 2 :<cmd>BufferLineCycleNext<cr> :desc "Next Buffer"}
         {1 "<leader>b["

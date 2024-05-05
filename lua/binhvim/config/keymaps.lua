@@ -53,10 +53,17 @@ local function setup()
   vim.keymap.set("i", "<a-k>", "<esc><cmd>m .-2<cr>gi", {desc = "Move Up", silent = true})
   vim.keymap.set("v", "<a-j>", ":m '>+1<cr>gvgv", {desc = "Move Down", silent = true})
   vim.keymap.set("v", "<a-k>", ":m '<-2<cr>gvgv", {desc = "Move Up", silent = true})
-  vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", {desc = "Prev Buffer", silent = true})
-  vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", {desc = "Next Buffer", silent = true})
-  vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", {desc = "Prev Buffer", silent = true})
-  vim.keymap.set("n", "]b", "<cmd>bnext<cr>", {desc = "Next Buffer", silent = true})
+  do
+    local lazy_config = require("lazy.core.config")
+    local plugin = lazy_config.spec.plugins["bufferline.nvim"]
+    if (plugin == nil) then
+      vim.keymap.set("n", "<s-h>", "<cmd>bprevious<cr>", {desc = "Prev Buffer", silent = true})
+      vim.keymap.set("n", "<s-l>", "<cmd>bnext<cr>", {desc = "Next Buffer", silent = true})
+      vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", {desc = "Prev Buffer", silent = true})
+      vim.keymap.set("n", "]b", "<cmd>bnext<cr>", {desc = "Next Buffer", silent = true})
+    else
+    end
+  end
   vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", {desc = "Switch to Other Buffer", silent = true})
   vim.keymap.set("n", "<leader>`", "<cmd>e #<cr>", {desc = "Switch to Other Buffer", silent = true})
   vim.keymap.set({"i", "n"}, "<esc>", "<cmd>noh<cr><esc>", {desc = "Escape and Clear hlsearch", silent = true})
@@ -83,37 +90,37 @@ local function setup()
   vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, {desc = "Line Diagnostics", silent = true})
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {desc = "Next Diagnostic", silent = true})
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {desc = "Prev Diagnostic", silent = true})
-  local function _5_()
+  local function _6_()
     return vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})
   end
-  vim.keymap.set("n", "]e", _5_, {desc = "Next Error", silent = true})
-  local function _6_()
+  vim.keymap.set("n", "]e", _6_, {desc = "Next Error", silent = true})
+  local function _7_()
     return vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})
   end
-  vim.keymap.set("n", "[e", _6_, {desc = "Prev Error", silent = true})
-  local function _7_()
+  vim.keymap.set("n", "[e", _7_, {desc = "Prev Error", silent = true})
+  local function _8_()
     return vim.diagnostic.goto_next({severity = vim.diagnostic.severity.WARN})
   end
-  vim.keymap.set("n", "]w", _7_, {desc = "Next Warning", silent = true})
-  local function _8_()
+  vim.keymap.set("n", "]w", _8_, {desc = "Next Warning", silent = true})
+  local function _9_()
     return vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.WARN})
   end
-  vim.keymap.set("n", "[w", _8_, {desc = "Prev Warning", silent = true})
-  local function _9_()
+  vim.keymap.set("n", "[w", _9_, {desc = "Prev Warning", silent = true})
+  local function _10_()
     vim.opt_local["spell"] = not (vim.opt_local.spell):get()
     return nil
   end
-  vim.keymap.set("n", "<leader>us", _9_, {desc = "Toggle Spelling", silent = true})
-  local function _10_()
+  vim.keymap.set("n", "<leader>us", _10_, {desc = "Toggle Spelling", silent = true})
+  local function _11_()
     vim.opt_local["wrap"] = not (vim.opt_local.wrap):get()
     return nil
   end
-  vim.keymap.set("n", "<leader>uw", _10_, {desc = "Toggle Word Wrap", silent = true})
-  local function _11_()
+  vim.keymap.set("n", "<leader>uw", _11_, {desc = "Toggle Word Wrap", silent = true})
+  local function _12_()
     vim.opt_local["relativenumber"] = not (vim.opt_local.relativenumber):get()
     return nil
   end
-  vim.keymap.set("n", "<leader>uL", _11_, {desc = "Toggle Relative Line Numbers", silent = true})
+  vim.keymap.set("n", "<leader>uL", _12_, {desc = "Toggle Relative Line Numbers", silent = true})
   vim.keymap.set("n", "<leader>ul", toggle_number, {desc = "Toggle Line Numbers", silent = true})
   vim.keymap.set("n", "<leader>ud", toggle_diagnostic, {desc = "Toggle Diagnostics", silent = true})
   local conceallevel
@@ -122,36 +129,36 @@ local function setup()
   else
     conceallevel = 3
   end
-  local function _13_()
-    local _14_
+  local function _14_()
+    local _15_
     if ((vim.opt_local.conceallevel):get() == 0) then
-      _14_ = conceallevel
+      _15_ = conceallevel
     else
-      _14_ = 0
+      _15_ = 0
     end
-    vim.opt_local["conceallevel"] = _14_
+    vim.opt_local["conceallevel"] = _15_
     return nil
   end
-  vim.keymap.set("n", "<leader>uc", _13_, {desc = "Toggle Conceal", silent = true})
-  local function _16_()
+  vim.keymap.set("n", "<leader>uc", _14_, {desc = "Toggle Conceal", silent = true})
+  local function _17_()
     if vim.b.ts_highlight then
       return vim.treesitter.stop()
     else
       return vim.treesitter.start()
     end
   end
-  vim.keymap.set("n", "<leader>uT", _16_, {desc = "Toggle Treesitter Highlight", silent = true})
-  local function _18_()
-    local _19_
+  vim.keymap.set("n", "<leader>uT", _17_, {desc = "Toggle Treesitter Highlight", silent = true})
+  local function _19_()
+    local _20_
     if ((vim.opt_local.background):get() == "light") then
-      _19_ = "dark"
+      _20_ = "dark"
     else
-      _19_ = "light"
+      _20_ = "light"
     end
-    vim.opt_local["background"] = _19_
+    vim.opt_local["background"] = _20_
     return nil
   end
-  vim.keymap.set("n", "<leader>ub", _18_, {desc = "Toggle Background", silent = true})
+  vim.keymap.set("n", "<leader>ub", _19_, {desc = "Toggle Background", silent = true})
   vim.keymap.set("n", "<leader>qq", "<cmd>qa<cr>", {desc = "Quit All", silent = true})
   vim.keymap.set("n", "<leader>ui", vim.show_pos, {desc = "Inspect Pos", silent = true})
   vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", {desc = "Enter Normal Mode", silent = true})

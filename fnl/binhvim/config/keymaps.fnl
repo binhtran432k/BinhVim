@@ -88,10 +88,13 @@
   (map :<a-j> ":m '>+1<cr>gvgv" {:mode :v :desc "Move Down"})
   (map :<a-k> ":m '<-2<cr>gvgv" {:mode :v :desc "Move Up"})
   ;; buffers
-  (map :<S-h> :<cmd>bprevious<cr> {:desc "Prev Buffer"})
-  (map :<S-l> :<cmd>bnext<cr> {:desc "Next Buffer"})
-  (map "[b" :<cmd>bprevious<cr> {:desc "Prev Buffer"})
-  (map "]b" :<cmd>bnext<cr> {:desc "Next Buffer"})
+  (let [lazy-config (require :lazy.core.config)
+        plugin (. lazy-config.spec.plugins :bufferline.nvim)]
+    (when (= plugin nil)
+      (map :<s-h> :<cmd>bprevious<cr> {:desc "Prev Buffer"})
+      (map :<s-l> :<cmd>bnext<cr> {:desc "Next Buffer"})
+      (map "[b" :<cmd>bprevious<cr> {:desc "Prev Buffer"})
+      (map "]b" :<cmd>bnext<cr> {:desc "Next Buffer"})))
   (map :<leader>bb "<cmd>e #<cr>" {:desc "Switch to Other Buffer"})
   (map "<leader>`" "<cmd>e #<cr>" {:desc "Switch to Other Buffer"})
   ;; Clear search with <esc>
