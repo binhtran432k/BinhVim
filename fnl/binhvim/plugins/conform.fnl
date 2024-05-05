@@ -27,7 +27,7 @@
 
 (fn filter-client [{: name}]
   (if biome?
-      (contain [:jsonls :tsserver] name) true))
+      (contain [:jsonls :tsserver :typescript-tools] name) true))
 
 ;; formatter
 {1 :stevearc/conform.nvim

@@ -5,15 +5,15 @@ local function filter_client(_1_)
   local _arg_2_ = _1_
   local name = _arg_2_["name"]
   if biome_3f then
-    return ((name ~= "jsonls") and (name ~= "tsserver"))
+    return ((name ~= "jsonls") and (name ~= "tsserver") and (name ~= "typescript-tools"))
   else
     return true
   end
 end
 local function _4_()
-  return (require("conform")).format({filter = filter_client, async = false, timeout_ms = 3000, quiet = false, lsp_fallback = true})
+  return (require("conform")).format({lsp_fallback = true, quiet = false, timeout_ms = 3000, async = false, filter = filter_client})
 end
 local function _5_()
-  return (require("conform")).format({formatters = {"injected"}, filter = filter_client, async = false, timeout_ms = 3000, quiet = false, lsp_fallback = true})
+  return (require("conform")).format({formatters = {"injected"}, lsp_fallback = true, quiet = false, timeout_ms = 3000, async = false, filter = filter_client})
 end
 return {"stevearc/conform.nvim", cmd = "ConformInfo", keys = {{"<leader>cf", _4_, mode = {"n", "v"}, desc = "Format"}, {"<leader>cF", _5_, mode = {"n", "v"}, desc = "Format Injected Langs"}}, opts = {formatters_by_ft = {fennel = {"fnlfmt"}, lua = {"stylua"}, fish = {"fish_indent"}, sh = {"shfmt"}}}}
