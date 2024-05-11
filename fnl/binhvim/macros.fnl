@@ -16,5 +16,12 @@
        (when (and stat# (= stat#.type :directory))
          ,cmd))))
 
-{: autocmd : run-in-directory?}
+(fn get-lazy-opts [pname]
+  `(let [lazy-config# (require :lazy.core.config)
+         plugin# (. lazy-config#.spec.plugins ,pname)
+         lazy-plugin# (require :lazy.core.plugin)
+         opts# (lazy-plugin#.values plugin# :opts false)]
+     opts#))
+
+{: autocmd : run-in-directory? : get-lazy-opts}
 

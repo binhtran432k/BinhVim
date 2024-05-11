@@ -11,9 +11,9 @@ local function filter_client(_1_)
   end
 end
 local function _4_()
-  return (require("conform")).format({lsp_fallback = true, quiet = false, timeout_ms = 3000, async = false, filter = filter_client})
+  return (require("conform")).format({timeout_ms = 3000, filter = filter_client, async = false, lsp_fallback = true, quiet = false})
 end
 local function _5_()
-  return (require("conform")).format({formatters = {"injected"}, lsp_fallback = true, quiet = false, timeout_ms = 3000, async = false, filter = filter_client})
+  return (require("conform")).format({formatters = {"injected"}, timeout_ms = 3000, filter = filter_client, async = false, lsp_fallback = true, quiet = false})
 end
 return {"stevearc/conform.nvim", cmd = "ConformInfo", keys = {{"<leader>cf", _4_, mode = {"n", "v"}, desc = "Format"}, {"<leader>cF", _5_, mode = {"n", "v"}, desc = "Format Injected Langs"}}, opts = {formatters_by_ft = {fennel = {"fnlfmt"}, lua = {"stylua"}, fish = {"fish_indent"}, sh = {"shfmt"}}}}
