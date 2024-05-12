@@ -143,12 +143,12 @@
                                                        {:capabilities (vim.deepcopy capabilities)}
                                                        (or (. servers server)
                                                            {}))
-                      server-setup (if (. opts.setup server)
-                                       (. opts.setup server)
-                                       (. opts.setup "*")
-                                       (. opts.setup "*"))
+                      server-setup (or (. opts.setup server) (. opts.setup "*"))
+                      add-on-attach (fn [on-attach]
+                                         (table.insert on-attachs on-attach))
                       server-setup (if server-setup
-                                       (server-setup server server-opts))]
+                                       (server-setup server server-opts
+                                                     add-on-attach))]
                   (when (not server-setup)
                     (let [lspconfig (require :lspconfig)
                           {: setup} (. lspconfig server)]

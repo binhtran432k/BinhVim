@@ -99,17 +99,15 @@ local function _5_(_, opts)
     capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), _14_, (opts.capabilities or {}))
     local function setup(server)
       local server_opts = vim.tbl_deep_extend("force", {capabilities = vim.deepcopy(capabilities)}, (servers[server] or {}))
-      local server_setup
-      if opts.setup[server] then
-        server_setup = opts.setup[server]
-      elseif opts.setup["*"] then
-        server_setup = opts.setup["*"]
-      else
-        server_setup = nil
+      local server_setup = (opts.setup[server] or opts.setup["*"])
+      local add_on_attach
+      local function _16_(on_attach)
+        return table.insert(on_attachs, on_attach)
       end
+      add_on_attach = _16_
       local server_setup0
       if server_setup then
-        server_setup0 = server_setup(server, server_opts)
+        server_setup0 = server_setup(server, server_opts, add_on_attach)
       else
         server_setup0 = nil
       end
